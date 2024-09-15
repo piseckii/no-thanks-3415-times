@@ -112,6 +112,7 @@ Leaderboard:
 Alex WIN!
 ```
 ## Формат save-файла
+```json
 {
   "top": "|15| score: 0",
   "deck": "|32| |25| |18| |27| |4|",
@@ -137,6 +138,6 @@ Alex WIN!
     }
   ]
 }
-
+```
 
 
