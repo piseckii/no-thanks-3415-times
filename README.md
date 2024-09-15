@@ -44,5 +44,98 @@
     получает 59 штрафных очка (3+7+10+14+25=59). Из этой суммы она вычитает 8 очков за 8 фишек, 
     получая конечный результат в 51 очко (59-8=51).
 
+## Пример текстового интерфейса
+
+```
+Players:
+Bob = []
+Alex = []
+noobik77 = []
+-----
+Top: |12| score: 0
+Bob: pay 
+Top: |12| score: 1
+Alex: take
+-----
+Players:
+Bob = []
+Alex = [|12|]
+noobik77 = []
+----
+Top: |25| score: 0
+Alex: pay
+Top: |25| score: 1
+noobik77: pay
+Top: |25| score: 2
+Bob: pay
+Top: |25| score: 3
+Alex: pay
+Top: |25| score: 4
+noobik77: pay
+Top: |25| score: 5
+Bob: pay
+Top: |25| score: 6
+Alex: pay
+Top: |25| score: 7
+noobik77: pay
+Top: |25| score: 8
+Bob: pay
+Top: |25| score: 9
+Alex: pay
+Top: |25| score: 10
+noobik77: pay
+Top: |25| score: 11
+Bob: pay
+Top: |25| score: 12
+Alex: pay
+Top: |25| score: 13
+noobik77: pay
+Top: |25| score: 14
+Bob: take
+-----
+Players:
+Bob = [|25|]
+Alex = [|12|]
+noobik77 = []
+....
+Players:
+Bob = [|25|, |29|, |7|, |3|, |4|, |5|, |35|, |30|]
+Alex = [|6|, |12|, |13|, |14|, |15|, |19|, |21|]
+noobik77 = [|8|, |9|, |10|, |11|, |22|, |24|, |17|, |18|, |27|]
+-----
+Leaderboard:
+1. Alex = 50
+2. noobik77 = 87
+3. Bob = 88
+----
+Alex WIN!
+```
+## Формат save-файла
+{
+  "top": "|15| score: 0",
+  "deck": "|32| |25| |18| |27| |4|",
+  "current_player_index": 0,
+  "players": [
+    {
+      "name": "Alex",
+      "score": 10
+      "hand": "|33| |22| |14| |28| |7|",
+      "is_human": true
+    },
+    {
+      "name": "Bob",
+      "score": 8
+      "hand": "|13|, |15|, |19|, |21|",
+      "is_human": false
+    },
+    {
+        "name": "noobik77"
+        "score": 15
+        "hand": "|8|, |9|, |10|, |11|"
+        "is_human": true
+    }
+  ]
+}
+
 
 
