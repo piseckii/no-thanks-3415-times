@@ -118,20 +118,20 @@ Alex WIN!
   "players": [
     {
       "name": "Alex",
-      "score": 10
+      "score": 10,
       "hand": "|33| |22| |14| |28| |7|",
       "is_human": true
     },
     {
       "name": "Bob",
-      "score": 8
+      "score": 8,
       "hand": "|13|, |15|, |19|, |21|",
       "is_human": false
     },
     {
-        "name": "noobik77"
-        "score": 15
-        "hand": "|8|, |9|, |10|, |11|"
+        "name": "noobik77",
+        "score": 15,
+        "hand": "|8|, |9|, |10|, |11|",
         "is_human": true
     }
   ]
