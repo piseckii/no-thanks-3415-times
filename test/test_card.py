@@ -9,4 +9,12 @@ def test_repr():
     c = Card(12)
     assert c.__repr__() == '|12|'
     assert Card.__repr__(Card(13)) == '|13|'
+def test_validation():
+    with pytest.raises(ValueError):
+        Card(1)
+    with pytest.raises(ValueError):
+        Card('f')
+    with pytest.raises(ValueError):
+        Card('1')
+    
     
