@@ -1,4 +1,6 @@
 import pytest
+import random
+
 from src.card import Card
 from src.deck import Deck
 
@@ -34,14 +36,15 @@ def test_eq():
     assert d == d2
     assert d != d3
 
+
 def test_save():
      cards = [Card(12), Card(15), Card(16)]
      
      d = Deck(cards)
-     
-     assert d.save() == ['12', '15', '16']
-     assert Deck(cards).save() ==  ['12', '15', '16']
-     assert Deck([Card(3)]).save() == ['3']
+    
+     assert d.save() == [12, 15, 16]
+     assert Deck(cards).save() ==  [12, 15, 16]
+     assert Deck([Card(3)]).save() == [3]
 
 
 def test_load():
@@ -50,12 +53,31 @@ def test_load():
     d = Deck(cards).save()
     
     assert Deck.load(d) == Deck(cards)
-    assert Deck.load(['12']) == Deck([Card(12)])
+    assert Deck.load([12]) == Deck([Card(12)])
+
 
 def test_draw_card():
-    cards = [Card(12), Card(15), Card(16)]
+    cards = [Card(12), Card(14), Card(16)]
      
     d = Deck(cards)
     
     assert d.draw_card() == Card(12)
-    assert d == Deck([Card(15), Card(16)])
+    assert d == Deck([Card(14), Card(16)])
+    
+
+def test_shuffle():
+    random.seed(3)
+
+    cards = Card.all_cards([7, 9, 8, 10, 11])
+    deck = Deck(cards)
+
+    deck.shuffle()
+    assert deck.save() == [7, 8, 10, 11, 9]
+    
+    deck.shuffle()
+    assert deck.save() == [8, 11, 10, 7, 9]
+    
+    deck.shuffle()
+    assert deck.save() == [11, 8, 9, 10, 7]
+
+    

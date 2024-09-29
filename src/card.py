@@ -16,22 +16,20 @@ class Card:
         return self.value == other.value
     
     
-    def save(self) -> str:
-        """Example: Card(15) -> '15'."""
-        return f'{self.value}'
+    def save(self) -> int:
+        return self.value
     
     
-    @staticmethod
-    def load(text: str):
-        """Example: load('15') -> Card(15)."""
-        return Card(int(text))
+    @classmethod
+    def load(cls, num: int):
+        return cls(num)
 
 
-    @staticmethod
-    def all_cards(values: None | list[int] = None):
+    @classmethod
+    def all_cards(cls, values: None | list[int] = None):
         if values is None:
-            values = Card.VALUES
-        cards = [Card(val) for val in values]
+            values = cls.VALUES
+        cards = [cls(val) for val in values]
         return cards
         
     
