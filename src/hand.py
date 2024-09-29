@@ -1,11 +1,9 @@
 from src.card import Card
 
-import random
-
-class Deck:
+class Hand:
     def __init__(self, cards: list[Card] | None = None):
         if cards == None:
-            cards = Card.all_cards()
+            cards = []
             
         self.cards: list[Card] = cards
         
@@ -27,10 +25,6 @@ class Deck:
         return cls(cards = [Card.load(num) for num in ls])
 
 
-    def draw_card(self):
-        return self.cards.pop(0)
-
-
-    def shuffle(self):
-        random.shuffle(self.cards)
-        
+    def add_card(self, card: Card):
+        self.cards.append(card)
+        return self
