@@ -53,13 +53,13 @@ def test_save():
     c = Card(15)
     b = Card(4).save()
     
-    assert c.save() == '15'
-    assert b == '4'
+    assert c.save() == 15
+    assert b == 4
     
     
 def test_load():
     a = Card(15)
-    c = '15'
+    c = 15
     b = Card(15).save()
     
     assert Card.load(c) == a
