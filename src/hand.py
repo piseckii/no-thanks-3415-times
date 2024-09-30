@@ -35,7 +35,7 @@ class Hand:
         h.sort()
         s = 0
         for i in range(len(h)):
-            if (h[i] == h[i-1] + 1)  and i != 0:
+            if (h[i] == h[i-1] + 1) and i != 0:
                 continue
             s += h[i]
         return s
