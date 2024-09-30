@@ -5,35 +5,36 @@ import typing
 
 
 class Player:
-    def __init__(self, name: str, hand: Hand, jeton: int = 11):
+    def __init__(self, name: str, hand: Hand, chips: int = 11):
         self.name = name
         self.hand = hand
-        self.jeton = jeton
+        self.chips = chips
 
 
     def __repr__(self):
-        return f'{self.name}({self.jeton}): {self.hand}'
+        return f'{self.name}({self.chips}): {self.hand}'
 
 
     def __eq__(self, other: typing.Self | str | dict):
+        
         if isinstance(other, str):
             other = self.load(json.loads(other))
         if isinstance(other, dict):
             other = self.load(other)
         return self.name == other.name \
-               and self.jeton == other.jeton \
+               and self.chips == other.chips \
                and self.hand == other.hand
 
 
     def save(self) -> dict:
         return {
             'name': self.name,
-            'hand':  Hand.save(self.hand),
-            'jeton': self.jeton
+            'hand':  self.hand.save(),
+            'chips': self.chips
         }
 
 
     @classmethod
     def load(cls, data: dict):
-        return cls(name=data['name'], hand=Hand.load(data['hand']), jeton=int(data['jeton']))
+        return cls(name=data['name'], hand=Hand.load(data['hand']), chips=int(data['chips']))
         

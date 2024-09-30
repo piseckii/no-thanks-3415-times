@@ -31,7 +31,7 @@ class Hand:
     
     
     def score(self) -> int:
-        h = self.save()
+        h = [card.value for card in self.cards]
         h.sort()
         s = 0
         for i in range(len(h)):
