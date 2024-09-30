@@ -64,4 +64,19 @@ def test_add_card():
     assert h == Hand([Card(14), Card(16), Card(15)])
     
 
+def test_score():
+    h1 = Hand.load([4, 8, 6, 9, 5])
+    h2 = Hand([Card(card) for card in [4, 8, 6, 9, 5]])
+    h3 = Hand.load([5, 8, 9, 6, 4])
+    h4 = Hand.load([10, 20, 31, 25, 4])
+    h5 = Hand.load([7, 9, 8, 5, 14, 20])
+    
+    assert h1.score() == 12
+    assert h2.score() == 12
+    assert h3.score() == 12
+    assert h4.score() == 90
+    assert h5.score() == 46
+    
+    
+
     

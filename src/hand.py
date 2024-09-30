@@ -28,3 +28,15 @@ class Hand:
     def add_card(self, card: Card):
         self.cards.append(card)
         return self
+    
+    
+    def score(self) -> int:
+        h = self.save()
+        h.sort()
+        s = 0
+        for i in range(len(h)):
+            if (h[i] == h[i-1] + 1)  and i != 0:
+                continue
+            s += h[i]
+        return s
+        
