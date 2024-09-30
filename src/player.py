@@ -32,4 +32,8 @@ class Player:
     @classmethod
     def load(cls, data: dict):
         return cls(name=data['name'], hand=Hand.load(data['hand']), jeton=int(data['jeton']))
+    
+    def pay(self):
+        self.jeton -= 1
+        return 1
         
