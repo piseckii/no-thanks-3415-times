@@ -32,8 +32,15 @@ def test_eq():
 
 
 def test_load():
-    data = {'name': 'Alex', 'hand': [4, 5, 6], 'chips': 15}
+    data1 = {'name': 'Alex', 'hand': [4, 5, 6], 'chips': 15}
     h = Hand.load([4, 5, 6])
-    p_expected = Player(name='Alex', hand=h, chips=15)
-    p = Player.load(data)
-    assert p == p_expected
+    data2 =  {'name': 'Alex', 'hand': [4, 5, 6]}
+    
+    p1_expected = Player(name='Alex', hand=h, chips=15)
+    p1 = Player.load(data1)
+    
+    p2 = Player.load(data2)
+    p2_expected = Player('Alex', Hand.load([4, 5, 6]))
+    
+    assert p1 == p1_expected
+    assert p2 == p2_expected

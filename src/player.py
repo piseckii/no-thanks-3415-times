@@ -36,5 +36,7 @@ class Player:
 
     @classmethod
     def load(cls, data: dict):
+        if 'chips' not in data:
+            data['chips'] = 11
         return cls(name=data['name'], hand=Hand.load(data['hand']), chips=int(data['chips']))
         
