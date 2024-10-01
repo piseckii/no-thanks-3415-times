@@ -49,6 +49,7 @@ def test_init():
     assert game._current_player == 1
     assert game.top == Top(Card.load(5))
     assert game.top.chips == 0
+    assert game.top.card == Card(5)
 
 
 def test_current_player():
