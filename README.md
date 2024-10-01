@@ -53,9 +53,9 @@ Bob = []
 Alex = []
 noobik77 = []
 -----
-Top: |12| score: 0
+Top: |12| chips: 0
 Bob: pay 
-Top: |12| score: 1
+Top: |12| chips: 1
 Alex: take
 -----
 Players:
@@ -63,35 +63,35 @@ Bob = []
 Alex = [|12|]
 noobik77 = []
 ----
-Top: |25| score: 0
+Top: |25| chips: 0
 Alex: pay
-Top: |25| score: 1
+Top: |25| chips: 1
 noobik77: pay
-Top: |25| score: 2
+Top: |25| chips: 2
 Bob: pay
-Top: |25| score: 3
+Top: |25| chips: 3
 Alex: pay
-Top: |25| score: 4
+Top: |25| chips: 4
 noobik77: pay
-Top: |25| score: 5
+Top: |25| chips: 5
 Bob: pay
-Top: |25| score: 6
+Top: |25| chips: 6
 Alex: pay
-Top: |25| score: 7
+Top: |25| chips: 7
 noobik77: pay
-Top: |25| score: 8
+Top: |25| chips: 8
 Bob: pay
-Top: |25| score: 9
+Top: |25| chips: 9
 Alex: pay
-Top: |25| score: 10
+Top: |25| chips: 10
 noobik77: pay
-Top: |25| score: 11
+Top: |25| chips: 11
 Bob: pay
-Top: |25| score: 12
+Top: |25| chips: 12
 Alex: pay
-Top: |25| score: 13
+Top: |25| chips: 13
 noobik77: pay
-Top: |25| score: 14
+Top: |25| chips: 14
 Bob: take
 -----
 Players:
@@ -117,28 +117,25 @@ Alex WIN!
   "top": 
     {
       "card": 15, 
-      "score": 0
+      "chips": 0
     },
   "deck": [32, 25, 18, 27, 4],
   "current_player_index": 0,
   "players": [
     {
       "name": "Alex",
-      "score": 10,
+      "chips": 10,
       "hand": [33, 22, 14, 28, 7],
-      "is_human": true
     },
     {
       "name": "Bob",
-      "score": 8,
+      "chips": 8,
       "hand": [13, 15, 19, 21],
-      "is_human": false
     },
     {
         "name": "noobik77",
-        "score": 15,
+        "chips": 15,
         "hand": [8, 9, 10, 11],
-        "is_human": true
     }
   ]
 }
