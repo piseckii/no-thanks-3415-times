@@ -34,17 +34,17 @@ def test_validation():
         Card('6.7')
     with pytest.raises(ValueError):
         Card(-5)
-        
+
 
 def test_eq():
     a = Card(7)
     c = Card(12)
     b = Card(12.0)
     d = Card(12)
-    
+
     assert c == b
     assert c == d
-    assert c == Card(12) 
+    assert c == Card(12)
     assert c != a
     assert c != Card(10)
 
@@ -52,16 +52,16 @@ def test_eq():
 def test_save():
     c = Card(15)
     b = Card(4).save()
-    
+
     assert c.save() == 15
     assert b == 4
-    
-    
+
+
 def test_load():
     a = Card(15)
     c = 15
     b = Card(15).save()
-    
+
     assert Card.load(c) == a
     assert Card.load(b) == a
     assert Card.load(a.save()) == a
@@ -71,9 +71,6 @@ def test_load():
 def test_all_cards():
     a = Card.all_cards([val for val in range(3, 7)])
     b = Card.all_cards()
-    
+
     assert a == [Card(3), Card(4), Card(5), Card(6)]
     assert b == [Card(val) for val in range(3, 36)]
-    
-    
-    

@@ -113,10 +113,12 @@ class GameServer:
 
     def choose_card_phase(self) -> GamePhase:
         current_player = self.game_state.current_player()
-        playable_cards = current_player.hand.playable_cards(self.game_state.top)
+        playable_cards = current_player.hand.playable_cards(
+            self.game_state.top)
 
         print(
-            f"Player {current_player.name} with hand {current_player.hand} can play {playable_cards} on top of {self.game_state.top}"
+            f"Player {current_player.name} with hand {current_player.hand} can play {
+                playable_cards} on top of {self.game_state.top}"
         )
 
         if not playable_cards:

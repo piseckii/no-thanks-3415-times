@@ -8,7 +8,7 @@ from src.game_state import GameState
 from src.player import Player
 
 data = {
-    'top': 
+    'top':
         {
             'card': 23,
             'chips': 35
@@ -31,7 +31,7 @@ data = {
             'hand': [5, 10, 15],
             'chips': 3
         }
-    ]
+            ]
 }
 
 alex = Player.load(data['players'][0])
@@ -42,8 +42,9 @@ full_deck = Deck(None)
 
 def test_init():
     players = [alex, bob, charley]
-    game = GameState(players=players, deck=full_deck, current_player=1, top=Top(Card(5)))
-    
+    game = GameState(players=players, deck=full_deck,
+                     current_player=1, top=Top(Card(5)))
+
     assert game.players == players
     assert game.deck == full_deck
     assert game._current_player == 1
@@ -57,27 +58,32 @@ def test_current_player():
     game = GameState(players=players, deck=full_deck, top=Top(Card(7)))
     assert game.current_player() == alex
 
-    game = GameState(players=players, deck=full_deck, top=Top(Card(7)), current_player=1)
+    game = GameState(players=players, deck=full_deck,
+                     top=Top(Card(7)), current_player=1)
     assert game.current_player() == bob
 
-    game = GameState(players=players, deck=full_deck, top=Top(Card(7)), current_player=2)
+    game = GameState(players=players, deck=full_deck,
+                     top=Top(Card(7)), current_player=2)
     assert game.current_player() == charley
 
 
 def test_eq():
     players = [alex, bob, charley]
-    
+
     game1 = GameState(players=players, deck=full_deck, top=Top(Card(7)))
-    game2 = GameState(players=players.copy(), deck=Deck(None), top=Top(Card(7)))
-    game3 = GameState(players=players, deck=Deck.load([5, 6, 7]), top=Top(Card(7)))
-    
+    game2 = GameState(players=players.copy(),
+                      deck=Deck(None), top=Top(Card(7)))
+    game3 = GameState(players=players, deck=Deck.load(
+        [5, 6, 7]), top=Top(Card(7)))
+
     assert game1 == game2
     assert game1 != game3
 
 
 def test_save():
     players = [alex, bob, charley]
-    game = GameState(players=players, deck=Deck.load(data['deck']), top=Top.load(data['top']), current_player=1)
+    game = GameState(players=players, deck=Deck.load(
+        data['deck']), top=Top.load(data['top']), current_player=1)
     assert game.save() == data
 
 
@@ -102,10 +108,10 @@ def test_next_player():
 
 def test_draw_card():
     game = GameState.load(data)
-    
+
     assert game.deck == Deck.load([11, 18])
     assert game.current_player().hand == Hand.load([8, 6, 14])
 
     game.draw_card()
-    assert game.deck ==  Deck.load([18])
+    assert game.deck == Deck.load([18])
     assert game.current_player().hand == Hand.load([8, 6, 14, 11])
