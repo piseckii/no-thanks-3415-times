@@ -18,3 +18,7 @@ class Top:
     @classmethod
     def load(cls, d: dict):
         return cls(card=Card.load(d['card']), chips=d['chips'])
+
+    def change_card(self, card=Card):
+        self.card = card
+        self.chips = 0

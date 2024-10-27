@@ -3,7 +3,6 @@ import json
 import sys
 
 from src.deck import Deck
-from src.top import Top
 from src.game_state import GameState
 from src.hand import Hand
 from src.player import Player
@@ -15,21 +14,16 @@ import logging
 import enum
 
 
-# class GamePhase(enum.StrEnum):
-#     CHOOSE_CARD = "Choose card"
-#     DRAW_EXTRA = "Draw extra card"
-#     NEXT_PLAYER = "Switch current player"
-#     DECLARE_WINNER = "Declare a winner"
-#     GAME_END = "Game ended"
-
 class GamePhase(enum.StrEnum):
-    BIDDING = "Choose to pay or take card"
-    NEXT_CARD = "Take card from deck and place on the top"
+    CHOOSE_CARD = "Choose card"
+    DRAW_EXTRA = "Draw extra card"
+    NEXT_PLAYER = "Switch current player"
     DECLARE_WINNER = "Declare a winner"
     GAME_END = "Game ended"
 
 
 class GameServer:
+    INITIAL_HAND_SIZE = 6
 
     def __init__(self, player_types, game_state):
         self.game_state: GameState = game_state
@@ -38,7 +32,7 @@ class GameServer:
     @classmethod
     def load_game(cls):
         # TODO: выбрать имя файла
-        filename = 'no_thanks.json'
+        filename = 'uno.json'
         with open(filename, 'r') as fin:
             data = json.load(fin)
             game_state = GameState.load(data)
@@ -51,7 +45,7 @@ class GameServer:
             return GameServer(player_types=player_types, game_state=game_state)
 
     def save(self):
-        filename = 'no_thanks.json'
+        filename = 'uno.json'
         data = self.save_to_dict()
         with open(filename, 'w') as fout:
             json.dump(data, fout, indent=4)
@@ -77,12 +71,9 @@ class GameServer:
 
     @classmethod
     def new_game(cls, player_types: dict):
-        # Shuffle the deck and remove 9 cards
-        deck = Deck().shuffle()
-        for _ in range(9):
-            deck.draw_card()
-
-        top = Top(deck.draw_card())
+        # Shuffle the deck and deal the top card
+        deck = Deck(cards=None)
+        top = deck.draw_card()
         game_state = GameState(list(player_types.keys()), deck, top)
 
         print(game_state.save())
@@ -91,40 +82,90 @@ class GameServer:
         return res
 
     def run(self):
-        current_phase = GamePhase.BIDDING
+        current_phase = GamePhase.CHOOSE_CARD
         while current_phase != GamePhase.GAME_END:
+            # 1. Possible code, but with more copy-paste
+            # match current_phase:
+            #     case CHOOSE_CARD:
+            #         current_phase = choose_card_phase()
+            #     case DRAW_EXTRA:
+            #         current_phase = draw_extra_phase()
+            #     case GAME_END:
+            #         current_phase = game_end_phase()
+
+            # 2. Suggested code - minimal and still easy to read
             phases = {
-                GamePhase.BIDDING: self.bidding_phase,
-                GamePhase.NEXT_CARD: self.next_card_phase,
+                GamePhase.CHOOSE_CARD: self.choose_card_phase,
+                GamePhase.DRAW_EXTRA: self.draw_extra_phase,
+                GamePhase.NEXT_PLAYER: self.next_player_phase,
                 GamePhase.DECLARE_WINNER: self.declare_winner_phase,
             }
             current_phase = phases[current_phase]()
 
+            # 3. Can use naming convection to not declare phases explicitly,
+            # but this may introduce errors later.
+            # Looks over-engineered and is hard to read w/o comments.
+            # current_phase = getattr(self, current_phase.name.lower() + "_phase")()
+
     def declare_winner_phase(self) -> GamePhase:
-        print()
+        print(f"{self.game_state.current_player()} is the winner!")
         return GamePhase.GAME_END
 
-    def next_card_phase(self) -> GamePhase:
-        if not self.game_state.deck:
+    def next_player_phase(self) -> GamePhase:
+        if not self.game_state.current_player().hand.cards:
             return GamePhase.DECLARE_WINNER
-        self.game_state.top = self.game_state.top.change_card(
-            self.game_state.deck.draw_card())
-        print('Top:', self.game_state.top)
-        return GamePhase.BIDDING
+        self.game_state.next_player()
+        print(f"=== {self.game_state.current_player()}'s turn")
+        return GamePhase.CHOOSE_CARD
 
-    def bidding_phase(self) -> GamePhase:
+    def draw_extra_phase(self) -> GamePhase:
         current_player = self.game_state.current_player()
-        card_is_taken = False
-        while not (card_is_taken):
-            if PlayerInteraction.choose_action() == 'take card':
-                self.game_state.take_card()
-                self.game_state.next_player
-                card_is_taken = True
-                PlayerInteraction.inform_card_is_taken()
-            elif PlayerInteraction.choose_action() == 'pay':
-                self.game_state.pay()
-                PlayerInteraction.inform_player_paid()
-        return GamePhase.NEXT_CARD
+        card = self.game_state.draw_card()
+        print(f"Player {current_player} draws {card}")
+        self.inform_all("inform_card_drawn", current_player)
+
+        if card.can_play_on(self.game_state.top):
+            print(f"Player {current_player} can play drawn card")
+            if self.player_types[current_player].choose_to_play(
+                self.game_state.top, card
+            ):
+                print(f"Player {current_player.name} played {card}")
+                current_player.hand.remove_card(card)
+                self.game_state.top = card
+                self.inform_all("inform_card_played", current_player, card)
+            else:
+                print(f"Player decides not to play {card}")
+
+        return GamePhase.NEXT_PLAYER
+
+    def choose_card_phase(self) -> GamePhase:
+        current_player = self.game_state.current_player()
+        playable_cards = current_player.hand.playable_cards(
+            self.game_state.top)
+
+        print(
+            f"Player {current_player.name} with hand {current_player.hand} can play {
+                playable_cards} on top of {self.game_state.top}"
+        )
+
+        if not playable_cards:
+            print(f"Player {current_player.name} could not play any card")
+            return GamePhase.DRAW_EXTRA
+
+        card = self.player_types[current_player].choose_card(
+            current_player.hand, self.game_state.top
+        )
+
+        if card is None:
+            print(f"Player {current_player.name} skipped a turn")
+            return GamePhase.DRAW_EXTRA
+
+        assert card in playable_cards
+        print(f"Player {current_player.name} played {card}")
+        current_player.hand.remove_card(card)
+        self.game_state.top = card
+        self.inform_all("inform_card_drawn", current_player)
+        return GamePhase.NEXT_PLAYER
 
     def inform_all(self, method: str, *args, **kwargs):
         """
@@ -146,11 +187,11 @@ class GameServer:
         while True:
             try:
                 player_count = int(input("How many players?"))
-                if 3 <= player_count <= 7:
+                if 2 <= player_count <= 10:
                     return player_count
             except ValueError:
                 pass
-            print("Please input a number between 3 and 7")
+            print("Please input a number between 2 and 10")
 
     @staticmethod
     def request_player() -> (str, PlayerInteraction):

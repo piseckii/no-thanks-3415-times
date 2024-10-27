@@ -31,7 +31,7 @@ data = {
             'hand': [5, 10, 15],
             'chips': 3
         }
-            ]
+        ]
 }
 
 alex = Player.load(data['players'][0])
@@ -115,3 +115,22 @@ def test_draw_card():
     game.draw_card()
     assert game.deck == Deck.load([18])
     assert game.current_player().hand == Hand.load([8, 6, 14, 11])
+
+
+def test_take_card():
+
+    game = GameState.load(data)
+    chips = game.current_player().chips
+
+    game.take_card()
+
+    assert game.current_player().hand == Hand.load([8, 6, 14, 23])
+    assert game.current_player().chips == game.top.chips + chips
+
+    game.next_player()
+    chips = game.current_player().chips
+
+    game.take_card()
+
+    assert game.current_player().hand == Hand.load([5, 10, 15, 23])
+    assert game.current_player().chips == game.top.chips + chips

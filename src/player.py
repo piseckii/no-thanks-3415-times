@@ -5,7 +5,7 @@ import typing
 
 
 class Player:
-    def __init__(self, name: str, hand: Hand, chips: int = 11):
+    def __init__(self, name: str, hand: Hand, chips: int = 0):
         self.name = name
         self.hand = hand
         self.chips = chips
@@ -33,5 +33,8 @@ class Player:
     @classmethod
     def load(cls, data: dict):
         if 'chips' not in data:
-            data['chips'] = 11
+            data['chips'] = 0
         return cls(name=data['name'], hand=Hand.load(data['hand']), chips=int(data['chips']))
+
+    def score(self):
+        return self.hand.score()

@@ -53,3 +53,12 @@ class GameState:
         """Текущий игрок берет карту из колоды."""
         card = self.deck.draw_card()
         self.current_player().hand.add_card(card)
+
+    def take_card(self):
+        self.current_player().hand.add_card(self.top.card)
+        self.current_player().chips += self.top.chips
+
+    def pay(self):
+        self.current_player().chips -= 1
+        self.top.chips += 1
+        self.next_player()
