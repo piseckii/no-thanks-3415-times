@@ -101,7 +101,15 @@ class GameServer:
             current_phase = phases[current_phase]()
 
     def declare_winner_phase(self) -> GamePhase:
-        print()
+        score = self.gamestate.score()
+        w = min(score, key=lambda k: score[k])
+
+        print('Score:')
+        for key in score:
+            print(key, score[key], sep='\t')
+        print('Winner:')
+        print(w, score[w], sep='\t')
+
         return GamePhase.GAME_END
 
     def next_card_phase(self) -> GamePhase:
@@ -118,7 +126,6 @@ class GameServer:
         while not (card_is_taken):
             if PlayerInteraction.choose_action() == 'take card':
                 self.game_state.take_card()
-                self.game_state.next_player()
                 card_is_taken = True
                 PlayerInteraction.inform_card_is_taken()
             elif PlayerInteraction.choose_action() == 'pay':

@@ -143,4 +143,4 @@ def test_score():
     ]
     game = GameState(players, Deck(), Top(Card.load(12), 12), 0)
 
-    assert game.score() == "CCC"
+    assert game.score() == {'AAA': 4, 'BBB': 24, 'CCC': -15}
