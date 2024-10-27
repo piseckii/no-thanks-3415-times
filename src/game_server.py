@@ -118,7 +118,7 @@ class GameServer:
         while not (card_is_taken):
             if PlayerInteraction.choose_action() == 'take card':
                 self.game_state.take_card()
-                self.game_state.next_player
+                self.game_state.next_player()
                 card_is_taken = True
                 PlayerInteraction.inform_card_is_taken()
             elif PlayerInteraction.choose_action() == 'pay':

@@ -37,4 +37,4 @@ class Player:
         return cls(name=data['name'], hand=Hand.load(data['hand']), chips=int(data['chips']))
 
     def score(self):
-        return self.hand.score()
+        return self.hand.score() - self.chips

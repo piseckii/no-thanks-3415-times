@@ -62,3 +62,15 @@ class GameState:
         self.current_player().chips -= 1
         self.top.chips += 1
         self.next_player()
+
+    def score(self):
+        score = {p.name: p.score() for p in self.players}
+        w = min(score, key=lambda k: score[k])
+        print('Score:')
+
+        for key in score:
+            print(key, score[key], sep='\t')
+
+        print('Winner:')
+        print(w, score[w], sep='\t')
+        return w
