@@ -1,5 +1,4 @@
 from src.card import Card
-from src.hand import Hand
 from src.player import Player
 
 from src.player_interaction import PlayerInteraction
@@ -7,37 +6,25 @@ from src.player_interaction import PlayerInteraction
 
 class Bot(PlayerInteraction):
     @classmethod
-    def choose_action(
-        cls, hand: Hand, top: Card, hand_counts: list[int] | None = None
-    ) -> Card:
-        """
-        Принимает решение, какую карту с руки играть.
-        Возвращает карту или None, если нельзя играть карту с руки.
-        """
-        playable_cards = [card for card in hand.cards if card.can_play_on(top)]
-        if playable_cards:
-            return playable_cards[0]
+    def choose_action(cls, player: Player, ):
+        if player.chips < 2:
+            action = 'take card'
+        elif len(player.hand) < 2:
+            action = 'take card'
         else:
-            return None
+            action = 'pay'
+        return action
 
     @classmethod
-    def choose_to_play(cls, top: Card, drawn: Card) -> bool:
+    def inform_player_paid(cls, player: Player):
         """
-        Принимает решение играть или не играть взятую из колоды карту.
-        Бот всегда играет карту.
-        """
-        return True
-
-    @classmethod
-    def inform_card_drawn(cls, player: Player):
-        """
-        Сообщает, что игрок взял карту.
+        Сообщает, что игрок заплатил фишку.
         """
         pass
 
     @classmethod
-    def inform_card_played(cls, player: Player, card: Card):
+    def inform_card_is_taken(cls, player: Player):
         """
-        Сообщает, что игрок сыграл карту.
+        Сообщает, что игрок взял карту.
         """
         pass
