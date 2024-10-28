@@ -57,7 +57,6 @@ class GameServer:
             json.dump(data, fout, indent=4)
 
     def save_to_dict(self):
-        # {'top': 'r2', 'deck': 'r0 g2 y1', 'current_player_index': 1, 'players': [{'name': 'Alex', 'hand': 'g5 b5', 'score': 0}, {'name': 'Bob', 'hand': 'y7', 'score': 1}]}
         data = self.game_state.save()
         for player_index, player in enumerate(self.player_types.keys()):
             player_interaction = self.player_types[player]
@@ -200,3 +199,5 @@ def __main__():
 
 if __name__ == "__main__":
     __main__()
+
+__main__()

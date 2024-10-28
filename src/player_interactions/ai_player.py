@@ -7,9 +7,7 @@ from src.player_interaction import PlayerInteraction
 class Bot(PlayerInteraction):
     @classmethod
     def choose_action(cls, player: Player, ):
-        if player.chips < 2:
-            action = 'take card'
-        elif len(player.hand) < 2:
+        if player.chips < 2 or len(player.hand) < 2:
             action = 'take card'
         else:
             action = 'pay'
@@ -20,11 +18,11 @@ class Bot(PlayerInteraction):
         """
         Сообщает, что игрок заплатил фишку.
         """
-        pass
+        print(f'{player.name}(Bot) pays')
 
     @classmethod
     def inform_card_is_taken(cls, player: Player):
         """
         Сообщает, что игрок взял карту.
         """
-        pass
+        print(f'{player.name}(Bot) takes card')
