@@ -5,7 +5,9 @@ import typing
 
 
 class Player:
-    def __init__(self, name: str, hand: Hand = Hand(), chips: int = 0):
+    def __init__(self, name: str, hand: Hand | None = None, chips: int = 0):
+        if not isinstance(hand, Hand):
+            hand = Hand()
         self.name = name
         self.hand = hand
         self.chips = chips
