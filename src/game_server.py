@@ -150,7 +150,7 @@ class GameServer:
     def request_player_count() -> int:
         while True:
             try:
-                player_count = int(input("How many players?"))
+                player_count = int(input("How many players?\n"))
                 if 3 <= player_count <= 7:
                     return player_count
             except ValueError:
@@ -170,7 +170,7 @@ class GameServer:
         player_types_as_str = ', '.join(player_types)
 
         while True:
-            name = input("How to call a player?")
+            name = input("How to call a player?\n")
             if name.isalpha():
                 break
             print("Name must be a single word, alphabetic characters only")
@@ -178,7 +178,7 @@ class GameServer:
         while True:
             try:
                 kind = input(
-                    f"What kind of player is it ({player_types_as_str})?")
+                    f"What kind of player is it ({player_types_as_str})?\n")
                 kind = getattr(all_player_types, kind)
                 break
             except AttributeError:
