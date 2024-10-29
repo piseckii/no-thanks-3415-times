@@ -61,7 +61,6 @@ class GameState:
     def pay(self):
         self.current_player().chips -= 1
         self.top.chips += 1
-        self.next_player()
 
     def score(self):
         return {p.name: p.score() for p in self.players}

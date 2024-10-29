@@ -15,13 +15,6 @@ import logging
 import enum
 
 
-# class GamePhase(enum.StrEnum):
-#     CHOOSE_CARD = "Choose card"
-#     DRAW_EXTRA = "Draw extra card"
-#     NEXT_PLAYER = "Switch current player"
-#     DECLARE_WINNER = "Declare a winner"
-#     GAME_END = "Game ended"
-
 class GamePhase(enum.StrEnum):
     BIDDING = "Choose to pay or take card"
     NEXT_CARD = "Take card from deck and place on the top"
@@ -120,17 +113,18 @@ class GameServer:
         return GamePhase.BIDDING
 
     def bidding_phase(self) -> GamePhase:
-        current_player = self.game_state.current_player()
-        card_is_taken = False
-        while not (card_is_taken):
-            if PlayerInteraction.choose_action() == 'take card':
+        player_type = self.player_types[self.game_state.current_player().name]
+        match player_type.choose_action():
+            case'take card':
                 self.game_state.take_card()
-                card_is_taken = True
                 PlayerInteraction.inform_card_is_taken()
-            elif PlayerInteraction.choose_action() == 'pay':
+                return GamePhase.NEXT_CARD
+            case 'pay':
+                player_type.choose_action() == 'pay'
                 self.game_state.pay()
+                self.game_state.next_player()
                 PlayerInteraction.inform_player_paid()
-        return GamePhase.NEXT_CARD
+        return GamePhase.BIDDING
 
     def inform_all(self, method: str, *args, **kwargs):
         """
@@ -199,5 +193,3 @@ def __main__():
 
 if __name__ == "__main__":
     __main__()
-
-__main__()
