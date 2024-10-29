@@ -96,7 +96,7 @@ class GameServer:
             current_phase = phases[current_phase]()
 
     def declare_winner_phase(self) -> GamePhase:
-        score = self.gamestate.score()
+        score = self.game_state.score()
         w = min(score, key=lambda k: score[k])
 
         print('Score:')
@@ -108,11 +108,10 @@ class GameServer:
         return GamePhase.GAME_END
 
     def next_card_phase(self) -> GamePhase:
-        if not self.game_state.deck:
+        if self.game_state.deck == Deck([]):
+            print('Deck empty')
             return GamePhase.DECLARE_WINNER
-        self.game_state.top = self.game_state.top.change_card(
-            self.game_state.deck.draw_card())
-        print('Top:', self.game_state.top)
+        self.game_state.top.change_card(self.game_state.deck.draw_card())
         return GamePhase.BIDDING
 
     def bidding_phase(self) -> GamePhase:

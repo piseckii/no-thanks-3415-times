@@ -19,11 +19,11 @@ class Bot(PlayerInteraction):
         """
         Сообщает, что игрок заплатил фишку.
         """
-        print(f'{player.name}(Bot) pays')
+        print(f'{player}(Bot) pays')
 
     @classmethod
     def inform_card_is_taken(cls, player: Player):
         """
         Сообщает, что игрок взял карту.
         """
-        print(f'{player.name}(Bot) takes card')
+        print(f'{player}(Bot) takes card')
