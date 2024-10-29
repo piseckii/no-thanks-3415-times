@@ -116,6 +116,7 @@ class GameServer:
 
     def bidding_phase(self) -> GamePhase:
         print('Top:', self.game_state.top)
+        print(f'current player: {self.game_state.current_player()}')
         player_type = self.player_types[self.game_state.current_player().name]
         match player_type.choose_action(self.game_state.current_player()):
             case'take card':
