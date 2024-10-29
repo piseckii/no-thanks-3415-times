@@ -64,18 +64,21 @@ class GameServer:
         for p in range(player_count):
             name, kind = cls.request_player()
             player = Player(name, Hand())
-            player_types[player] = kind
+            player_types[player.name] = kind
         return player_types
 
     @classmethod
     def new_game(cls, player_types: dict):
         # Shuffle the deck and remove 9 cards
-        deck = Deck().shuffle()
+        deck = Deck()
+        deck.shuffle()
         for _ in range(9):
             deck.draw_card()
 
         top = Top(deck.draw_card())
-        game_state = GameState(list(player_types.keys()), deck, top)
+        players: list[Player] = [Player(name=name, chips=11)
+                                 for name in player_types.keys()]
+        game_state = GameState(players=players, deck=deck, top=top)
 
         print(game_state.save())
 
@@ -113,18 +116,20 @@ class GameServer:
         return GamePhase.BIDDING
 
     def bidding_phase(self) -> GamePhase:
+        print('Top:', self.game_state.top)
         player_type = self.player_types[self.game_state.current_player().name]
-        match player_type.choose_action():
+        match player_type.choose_action(self.game_state.current_player()):
             case'take card':
                 self.game_state.take_card()
-                PlayerInteraction.inform_card_is_taken()
+                player_type.inform_card_is_taken(
+                    self.game_state.current_player())
                 return GamePhase.NEXT_CARD
             case 'pay':
-                player_type.choose_action() == 'pay'
                 self.game_state.pay()
                 self.game_state.next_player()
-                PlayerInteraction.inform_player_paid()
-        return GamePhase.BIDDING
+                player_type.inform_player_paid(
+                    self.game_state.current_player())
+                return GamePhase.BIDDING
 
     def inform_all(self, method: str, *args, **kwargs):
         """

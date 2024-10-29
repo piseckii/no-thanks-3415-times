@@ -55,8 +55,9 @@ class GameState:
         self.current_player().hand.add_card(card)
 
     def take_card(self):
-        self.current_player().hand.add_card(self.top.card)
-        self.current_player().chips += self.top.chips
+        top: Top = self.top
+        self.current_player().hand.add_card(top.card)
+        self.current_player().chips += top.chips
 
     def pay(self):
         self.current_player().chips -= 1

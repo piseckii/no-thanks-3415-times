@@ -2,15 +2,16 @@ from src.card import Card
 from src.player import Player
 
 from src.player_interaction import PlayerInteraction
+import random
 
 
 class Bot(PlayerInteraction):
     @classmethod
     def choose_action(cls, player: Player, ):
-        if player.chips < 2 or len(player.hand) < 2:
+        if player.chips <= 0:
             action = 'take card'
         else:
-            action = 'pay'
+            action = random.choice(['take card', 'pay'])
         return action
 
     @classmethod
