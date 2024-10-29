@@ -115,14 +115,14 @@ class GameServer:
         return GamePhase.BIDDING
 
     def bidding_phase(self) -> GamePhase:
+        current_player = self.game_state.current_player()
         print('Top:', self.game_state.top)
-        print(f'current player: {self.game_state.current_player()}')
-        player_type = self.player_types[self.game_state.current_player().name]
-        match player_type.choose_action(self.game_state.current_player()):
+        print(f'current player: {current_player}')
+        player_type = self.player_types[current_player.name]
+        match player_type.choose_action(current_player):
             case'take card':
                 self.game_state.take_card()
-                player_type.inform_card_is_taken(
-                    self.game_state.current_player())
+                player_type.inform_card_is_taken(current_player)
                 return GamePhase.NEXT_CARD
             case 'pay':
                 self.game_state.pay()
