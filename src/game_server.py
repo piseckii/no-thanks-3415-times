@@ -108,8 +108,7 @@ class GameServer:
         return GamePhase.GAME_END
 
     def next_card_phase(self) -> GamePhase:
-        if self.game_state.deck == Deck([]):
-            print('Deck empty')
+        if self.game_state.deck.is_empty():
             return GamePhase.DECLARE_WINNER
         self.game_state.top.change_card(self.game_state.deck.draw_card())
         return GamePhase.BIDDING

@@ -28,3 +28,6 @@ class Deck:
 
     def shuffle(self):
         random.shuffle(self.cards)
+
+    def is_empty(self):
+        return self == Deck([])
