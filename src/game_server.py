@@ -80,7 +80,7 @@ class GameServer:
                                  for name in player_types.keys()]
         game_state = GameState(players=players, deck=deck, top=top)
 
-        print(game_state.save())
+        print(game_state)
 
         res = cls(player_types, game_state)
         return res
