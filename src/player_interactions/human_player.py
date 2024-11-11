@@ -7,28 +7,28 @@ from src.player_interaction import PlayerInteraction
 
 class Human(PlayerInteraction):
     @classmethod
-    def choose_card(
-        cls, hand: Hand, top: Card, hand_counts: list[int] | None = None
-    ) -> Card:
-        """
-        Принимает решение, какую карту с руки играть.
-        Возвращает карту или None, если нельзя играть карту с руки.
-        """
-        playable_cards = hand.playable_cards(top)
+    def choose_action(cls, player: Player, ):
         while True:
-            try:
-                card_text = input("Choose card: ")
-                card = Card.load(card_text)
-                if card in playable_cards:
-                    return card
-                else:
-                    print('Эту карту нельзя играть.')
-            except ValueError:
-                print("Карта задается как g5, где g цвет (r g b y), и номер от 0 до 9.")
+            action = input('Choose action:\n')
+
+            if action in ('take card', 'pay'):
+                if action == 'pay' and player.chips <= 0:
+                    print('You have not enough chips!')
+                    continue
+                return action
+
+            print('Please type "take card" or "pay"')
 
     @classmethod
-    def choose_to_play(cls, top: Card, drawn: Card) -> bool:
+    def inform_player_paid(cls, player: Player):
         """
-        Принимает решение играть или не играть взятую из колоды карту.
+        Сообщает, что игрок заплатил фишку.
         """
-        return True
+        print(f'{player.name}({cls}): pays')
+
+    @classmethod
+    def inform_card_is_taken(cls, player: Player):
+        """
+        Сообщает, что игрок взял карту.
+        """
+        print(f'{player.name}({cls}): takes card')

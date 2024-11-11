@@ -11,7 +11,7 @@ class Bot(PlayerInteraction):
         if player.chips <= 0:
             action = 'take card'
         else:
-            action = random.choice(['take card', 'pay'])
+            action = random.choice(('take card', 'pay'))
         return action
 
     @classmethod
@@ -19,11 +19,11 @@ class Bot(PlayerInteraction):
         """
         Сообщает, что игрок заплатил фишку.
         """
-        print(f'{player.name}(Bot): pay')
+        print(f'{player.name}({cls}): pays')
 
     @classmethod
     def inform_card_is_taken(cls, player: Player):
         """
         Сообщает, что игрок взял карту.
         """
-        print(f'{player.name}(Bot): take card')
+        print(f'{player.name}({cls}): takes card')

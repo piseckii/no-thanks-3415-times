@@ -17,11 +17,11 @@ class PlayerInteraction(ABC):
         """
         Сообщает, что игрок заплатил фишку.
         """
-        pass
+        print(f'{player.name}({cls}): pays')
 
     @classmethod
     def inform_card_is_taken(cls, player: Player):
         """
         Сообщает, что игрок взял карту.
         """
-        pass
+        print(f'{player.name}({cls}): takes card')
