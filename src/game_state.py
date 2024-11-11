@@ -18,7 +18,8 @@ class GameState:
 "top": {self.top},
 "deck": {self.deck},
 "current_player_index": {self._current_player},
-"players": {[p.save() for p in self.players]}"""
+"players": {[p.save() for p in self.players]}
+"""
 
     def current_player(self) -> Player:
         return self.players[self._current_player]

@@ -121,14 +121,14 @@ class GameServer:
         player_type = self.player_types[current_player.name]
         match player_type.choose_action(current_player):
             case'take card':
-                self.game_state.take_card()
                 player_type.inform_card_is_taken(current_player)
+                self.game_state.take_card()
                 return GamePhase.NEXT_CARD
             case 'pay':
-                self.game_state.pay()
-                self.game_state.next_player()
                 player_type.inform_player_paid(
                     self.game_state.current_player())
+                self.game_state.pay()
+                self.game_state.next_player()
                 return GamePhase.BIDDING
 
     def inform_all(self, method: str, *args, **kwargs):
