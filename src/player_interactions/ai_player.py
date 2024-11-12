@@ -15,17 +15,3 @@ class Bot(PlayerInteraction):
         else:
             action = random.choice((Action.TAKE_CARD, Action.PAY))
         return action
-
-    @classmethod
-    def inform_player_paid(cls, player: Player):
-        """
-        Сообщает, что игрок заплатил фишку.
-        """
-        print(f'{player.name}(Bot): pays')
-
-    @classmethod
-    def inform_card_is_taken(cls, player: Player):
-        """
-        Сообщает, что игрок взял карту.
-        """
-        print(f'{player.name}(Bot): takes card')

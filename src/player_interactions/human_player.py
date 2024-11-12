@@ -24,17 +24,3 @@ class Human(PlayerInteraction):
                     return action
 
             print('Please type "t" to take card or "p" for pay')
-
-    @classmethod
-    def inform_player_paid(cls, player: Player):
-        """
-        Сообщает, что игрок заплатил фишку.
-        """
-        print(f'{player.name}: pays')
-
-    @classmethod
-    def inform_card_is_taken(cls, player: Player):
-        """
-        Сообщает, что игрок взял карту.
-        """
-        print(f'{player.name}: takes card')
