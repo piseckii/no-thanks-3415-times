@@ -1,0 +1,54 @@
+{
+    "top": {
+        "card": 20,
+        "chips": 0
+    },
+    "deck": [
+        5,
+        8,
+        32,
+        17,
+        23,
+        14,
+        12,
+        25,
+        24,
+        29,
+        11,
+        10,
+        7,
+        4,
+        15,
+        18,
+        21,
+        27,
+        13,
+        16,
+        26
+    ],
+    "current_player_index": 1,
+    "players": [
+        {
+            "name": "bob",
+            "hand": [
+                22
+            ],
+            "chips": 12,
+            "kind": "Bot"
+        },
+        {
+            "name": "Human",
+            "hand": [
+                33
+            ],
+            "chips": 11,
+            "kind": "Human"
+        },
+        {
+            "name": "bbbbbb",
+            "hand": [],
+            "chips": 10,
+            "kind": "Bot"
+        }
+    ]
+}
