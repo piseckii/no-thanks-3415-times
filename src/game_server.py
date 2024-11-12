@@ -8,6 +8,7 @@ from src.game_state import GameState
 from src.hand import Hand
 from src.player import Player
 from src.player_interaction import PlayerInteraction
+from player_interaction import Action
 import src.player_interactions as all_player_types
 
 import logging
@@ -119,11 +120,11 @@ class GameServer:
         print(f'current player: {current_player}')
         player_type = self.player_types[current_player.name]
         match player_type.choose_action(current_player):
-            case'take card':
+            case Action.TAKE_CARD:
                 player_type.inform_card_is_taken(current_player)
                 self.game_state.take_card()
                 return GamePhase.NEXT_CARD
-            case 'pay':
+            case Action.PAY:
                 player_type.inform_player_paid(
                     self.game_state.current_player())
                 self.game_state.pay()

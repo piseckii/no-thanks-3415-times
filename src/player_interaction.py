@@ -3,6 +3,12 @@ from abc import ABC, abstractmethod
 from src.card import Card
 from src.hand import Hand
 from src.player import Player
+import enum
+
+
+class Action(enum.StrEnum):
+    PAY = 'pay'
+    TAKE_CARD = 'take card'
 
 
 class PlayerInteraction(ABC):
