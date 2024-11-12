@@ -1,7 +1,7 @@
 import inspect
 import json
 import sys
-
+from pathlib import Path
 from src.deck import Deck
 from src.top import Top
 from src.game_state import GameState
@@ -24,28 +24,26 @@ class GamePhase(enum.StrEnum):
 
 
 class GameServer:
+    SAVE_FILE = 'gamedata1'
 
     def __init__(self, player_types, game_state):
         self.game_state: GameState = game_state
         self.player_types: dict = player_types  # {player: PlayerInteractions}
 
     @classmethod
-    def load_game(cls):
-        # TODO: выбрать имя файла
-        filename = 'no_thanks.json'
+    def load_game(cls, filename: str | Path):
         with open(filename, 'r') as fin:
             data = json.load(fin)
             game_state = GameState.load(data)
-            print(game_state.save())
+            print(game_state)
             player_types = {}
             for player, player_data in zip(game_state.players, data['players']):
                 kind = player_data['kind']
                 kind = getattr(all_player_types, kind)
-                player_types[player] = kind
+                player_types[player.name] = kind
             return GameServer(player_types=player_types, game_state=game_state)
 
-    def save(self):
-        filename = 'no_thanks.json'
+    def save(self, filename: str | Path):
         data = self.save_to_dict()
         with open(filename, 'w') as fout:
             json.dump(data, fout, indent=4)
@@ -112,6 +110,7 @@ class GameServer:
         if self.game_state.deck.is_empty():
             return GamePhase.DECLARE_WINNER
         self.game_state.top.change_card(self.game_state.deck.draw_card())
+        self.save(GameServer.SAVE_FILE)
         return GamePhase.BIDDING
 
     def bidding_phase(self) -> GamePhase:
@@ -187,12 +186,12 @@ class GameServer:
 
 
 def __main__():
-    load_from_file = False
+    load_from_file = True
     if load_from_file:
-        server = GameServer.load_game()
-        server.save()
+        server = GameServer.load_game(GameServer.SAVE_FILE)
     else:
         server = GameServer.new_game(GameServer.get_players())
+    server.save(GameServer.SAVE_FILE)
     server.run()
 
 
