@@ -1,7 +1,8 @@
 import inspect
 import json
 import sys
-from pathlib import Path
+
+import pathlib as pb
 from src.deck import Deck
 from src.top import Top
 from src.game_state import GameState
@@ -24,14 +25,15 @@ class GamePhase(enum.StrEnum):
 
 
 class GameServer:
-    SAVE_FILE = 'gamedata1'
+
+    SAVE_FILE = pb.Path.cwd().joinpath('gamedata1')
 
     def __init__(self, player_types, game_state):
         self.game_state: GameState = game_state
         self.player_types: dict = player_types  # {player: PlayerInteractions}
 
     @classmethod
-    def load_game(cls, filename: str | Path):
+    def load_game(cls, filename: str | pb.Path):
         with open(filename, 'r') as fin:
             data = json.load(fin)
             game_state = GameState.load(data)
@@ -43,7 +45,7 @@ class GameServer:
                 player_types[player.name] = kind
             return GameServer(player_types=player_types, game_state=game_state)
 
-    def save(self, filename: str | Path):
+    def save(self, filename: str | pb.Path):
         data = self.save_to_dict()
         with open(filename, 'w') as fout:
             json.dump(data, fout, indent=4)
@@ -186,7 +188,7 @@ class GameServer:
 
 
 def __main__():
-    load_from_file = True
+    load_from_file = False
     if load_from_file:
         server = GameServer.load_game(GameServer.SAVE_FILE)
     else:
