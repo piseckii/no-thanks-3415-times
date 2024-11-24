@@ -188,12 +188,12 @@ class GameServer:
 
 
 def __main__():
-    load_from_file = False
+    load_from_file = True
     if load_from_file:
         server = GameServer.load_game(GameServer.SAVE_FILE)
     else:
         server = GameServer.new_game(GameServer.get_players())
-    server.save(GameServer.SAVE_FILE)
+        server.save(GameServer.SAVE_FILE)
     server.run()
 
 
