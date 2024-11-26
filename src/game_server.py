@@ -26,7 +26,7 @@ class GamePhase(enum.StrEnum):
 
 class GameServer:
 
-    SAVE_FILE = pb.Path(__file__).parent.joinpath('gamedata1')
+    SAVE_FILE = pb.Path(__file__).parent / 'gamedata1'
 
     def __init__(self, player_types, game_state):
         self.game_state: GameState = game_state
@@ -188,8 +188,8 @@ class GameServer:
 
 
 def __main__():
-    load_from_file = 1
-    if load_from_file and GameServer.SAVE_FILE.is_file():
+    load_from_file = True
+    if load_from_file:
         server = GameServer.load_game(GameServer.SAVE_FILE)
     else:
         server = GameServer.new_game(GameServer.get_players())
