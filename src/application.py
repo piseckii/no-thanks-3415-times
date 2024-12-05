@@ -1,41 +1,35 @@
-import pygame as pg
+import pygame
 
-from src.game_server import GameServer
 from src.resource import RESOURCE as RSC
+from src.ui.view_game import ViewGame
 
 
 class Application:
     def __init__(self):
-        pg.init()
+        pygame.init()
         self.size = (self.width, self.height) = (RSC['width'], RSC['height'])
-        self.display = pg.display.set_mode(self.size)
-        pg.display.set_caption("No thanks")
-        icon_img = pg.image.load("src/img/icon.png")
-        pg.display.set_icon(icon_img)
-
-        self.vgame = None
+        self.display = pygame.display.set_mode(self.size)
+        self.vgame = ViewGame()
+        pygame.display.set_caption("No Thanks")
+        icon_img = pygame.image.load("src/img/icon.png")
+        pygame.display.set_icon(icon_img)
 
     def run(self):
-        clock = pg.time.Clock()
         running = True
         self.display.fill('darkgreen', (0, 0, self.width, self.height))
-        pg.display.update()
+        pygame.display.update()
         while running:
-            # # изменения модели
-            # self.vgame.model_update()
-            # # отрисовка изменений
-            # self.vgame.redraw(self.display)
-            # # реакция на клавиши и мышь
-            for event in pg.event.get():
-                if event.type == pg.QUIT or \
-                        event.type == pg.KEYDOWN and event.key == pg.K_q:
+            # изменения модели
+            self.vgame.model_update()
+            # отрисовка изменений
+            self.vgame.redraw(self.display)
+            # реакция на клавиши и мышь
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
                     running = False
-                # self.vgame.event_processing(event)
-            clock.tick(RSC["FPS"])
+                self.vgame.event_processing(event)
 
 
 if __name__ == '__main__':
     app = Application()
-
-    # run строго после связки с game_server
     app.run()
