@@ -15,6 +15,7 @@ class Application:
         pygame.display.set_icon(icon_img)
 
     def run(self):
+        clock = pygame.time.Clock()
         running = True
         self.display.fill('darkgreen', (0, 0, self.width, self.height))
         pygame.display.update()
@@ -28,6 +29,7 @@ class Application:
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_q:
                     running = False
                 self.vgame.event_processing(event)
+            clock.tick(RSC["FPS"])
 
 
 if __name__ == '__main__':

@@ -73,3 +73,47 @@ class ViewCard:
     def select(self):
         self.selected = not self.selected
         print(f'{self.selected=}')
+
+
+class Fly:
+    def __init__(self, vcard: ViewCard | None = None):
+        self.vcard = vcard
+        self.start: tuple[int, int] = (0, 0)
+        self.finish: tuple[int, int] = (0, 0)
+        self.total_iterations: int = 0
+        self.iterations: int = 0
+        self.animation_mode = False
+
+    def begin(self, vcard: ViewCard, finish: tuple[int, int], total_iterations: int = RSC["FPS"]):
+        self.vcard = vcard
+        self.start = (vcard.x, vcard.y)
+        self.finish = finish
+        self.total_iterations = total_iterations
+        self.iterations = 0
+        self.animation_mode = True
+
+    def redraw(self, display: pygame.Surface):
+        if self.animation_mode and self.vcard:
+            self.vcard.redraw(display)
+
+    def fly(self):
+        if not self.animation_mode:
+            return
+
+        self.iterations += 1
+
+        if self.iterations >= self.total_iterations:
+            self.end()
+            return
+
+        x0, y0 = self.start
+        x1, y1 = self.finish
+        dx = (x1 - x0) / self.total_iterations
+        dy = (y1 - y0) / self.total_iterations
+        self.vcard.x = x0 + dx * self.iterations
+        self.vcard.y = y0 + dy * self.iterations
+
+    def end(self):
+        self.animation_mode = False
+        self.vcard.x = self.finish[0]
+        self.vcard.y = self.finish[1]
