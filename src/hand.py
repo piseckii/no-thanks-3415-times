@@ -14,6 +14,12 @@ class Hand:
     def __eq__(self, other):
         return self.cards == other.cards
 
+    def __getitem__(self, item):
+        return self.cards[item]
+
+    def __len__(self):
+        return len(self.cards)
+
     def save(self) -> list[int]:
         return [Card.save(card) for card in self.cards]
 

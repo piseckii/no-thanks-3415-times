@@ -27,6 +27,9 @@ class ViewCard:
             self.IMAGE_BACK = pygame.transform.scale(
                 img, (ViewCard.WIDTH, ViewCard.HEIGHT))
 
+    def __repr__(self):
+        return f'{self.card} ({self.x}, {self.y})'
+
     def redraw(self, display: pygame.Surface):
         if self.selected:
             r = (
