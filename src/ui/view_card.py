@@ -30,6 +30,9 @@ class ViewCard:
     def __repr__(self):
         return f'{self.card} ({self.x}, {self.y})'
 
+    def rect(self):
+        return pygame.Rect(self.x, self.y, self.WIDTH, self.HEIGHT)
+
     def redraw(self, display: pygame.Surface):
         if self.selected:
             r = (
